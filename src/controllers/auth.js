@@ -2,6 +2,7 @@ const db = require('../db')
 const { hash } = require('bcryptjs')
 const { sign } = require('jsonwebtoken')
 const { SECRET } = require('../constants')
+const { POSTGRES_USER, POSTGRES_HOST, POSTGRES_DATABASE, POSTGRES_PASSWORD, POSTGRES_PORT } = require('../constants')
 
 exports.getUsers = async (req, res) => {
   try {
@@ -19,6 +20,13 @@ exports.getUsers = async (req, res) => {
 exports.register = async (req, res) => {
   const { email, password } = req.body
   try {
+
+    console.log("PostgresUser: ", POSTGRES_USER)
+    console.log("PostgresHost: ", POSTGRES_HOST)
+    console.log("PostgresDatabase: ", POSTGRES_DATABASE)
+    console.log("PostgresPassword: ", POSTGRES_PASSWORD)
+    console.log("PostgresPort: ", POSTGRES_PORT)
+    
     const hashedPassword = await hash(password, 10)
 
     await db.query('insert into users(email,password) values ($1 , $2)', [
